@@ -8,7 +8,6 @@ $(document).ready(function () {
   console.log(currentDay);
 
   // var timeBlock = $(".time-block");
-  var saveButton = $(".saveBtn");
 
   function hourUpdater() {
     var currentHour = dayjs().hour();
@@ -18,7 +17,7 @@ $(document).ready(function () {
       var blockHour = parseInt($(this).attr("id"));
       // let value = blockHour.substring(5, 7);
 
-      console.log(currentHour);
+      // console.log(currentHour);
 
       if (blockHour < currentHour) {
         $(this).addClass("past");
@@ -35,21 +34,40 @@ $(document).ready(function () {
   hourUpdater();
   setInterval(hourUpdater, 10000);
 
+  var saveButton = $(".saveBtn");
+  let timeRow = $(".time-block");
+  $(timeRow).on("click", saveButton, function () {
+    // event.preventDefault();
 
-  
+    // console.log(eventtarget);
 
+    myTextBox = $(this).children(".description");
+    message = $(myTextBox).val();
+    console.log(message);
+    console.log(myTextBox);
+    localStorage.setItem($(this).attr("id"), message);
+  });
+
+  function getNotes() {
+    for (let i = 0; i < localStorage.length; i++) {
+      notes = localStorage.key(i);
+      message = localStorage.getItem(notes);
+      console.log(message);
+      console.log(notes);
+      adult = document.getElementById(notes);
+      console.log(adult);
+      $(adult).children(".description").val(message);
+      // console.log();
+    }
   }
 
-  // saveButton.on("click", function (event) {
-  //   event.preventDefault();
-  //   console.log(saveButton);
-  //   var textNotes = document.getElementsByClassName("description");
+  // console.log(this);
 
-  //   function saveComments() {
-  //     localStorage.setItem("textNotes", JSON.stringify(textNotes));
-  //     saveComments();
-  //   }
-  // });
+  // function saveComments() {
+  //   localStorage.setItem("textNotes", JSON.stringify(textNotes));
+  //   saveComments();
+
+  getNotes();
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
