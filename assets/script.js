@@ -7,17 +7,49 @@ $(document).ready(function () {
   $(currentDay).text(today.format("[Today is] MMM D, YYYY HH:mm:s"));
   console.log(currentDay);
 
-  $(".time-block").each(function () {
+  // var timeBlock = $(".time-block");
+  var saveButton = $(".saveBtn");
+
+  function hourUpdater() {
     var currentHour = dayjs().hour();
-    var blockHour = parseInt($(this).attr("id"));
-    console.log(blockHour);
-    if (blockHour < currentHour) {
-      $("textarea").addClass(".future");
-    } else if (blockHour === currentHour) {
-      $("blockHour").css(".present");
-    } else blockHour > currentHour;
-    $("blockHour").css(".future");
-  });
+    console.log(currentHour);
+    $(".time-block").each(function () {
+      // var block = this;
+      var blockHour = parseInt($(this).attr("id"));
+      // let value = blockHour.substring(5, 7);
+
+      console.log(currentHour);
+
+      if (blockHour < currentHour) {
+        $(this).addClass("past");
+      } else if (blockHour === currentHour) {
+        $(this).removeClass("past");
+        $(this).addClass("present");
+      } else {
+        $(this).removeClass("past");
+        $(this).removeClass("present");
+        $(this).addClass("future");
+      }
+    });
+  }
+  hourUpdater();
+  setInterval(hourUpdater, 10000);
+
+
+  
+
+  }
+
+  // saveButton.on("click", function (event) {
+  //   event.preventDefault();
+  //   console.log(saveButton);
+  //   var textNotes = document.getElementsByClassName("description");
+
+  //   function saveComments() {
+  //     localStorage.setItem("textNotes", JSON.stringify(textNotes));
+  //     saveComments();
+  //   }
+  // });
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
